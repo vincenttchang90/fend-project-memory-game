@@ -21,10 +21,41 @@ function shuffle(array) {
         array[currentIndex] = array[randomIndex];
         array[randomIndex] = temporaryValue;
     }
-
     return array;
 }
 
+let cardsArray = [];
+let deck = $('.card');
+let cards = [];
+
+function newGame() {
+    shuffle(deck);
+    $('.deck').empty();
+
+    $(deck).each(function(card){
+        console.log(deck[card]);
+        $(deck[card]).attr('class', 'card');
+        $('.deck').append(deck[card]);
+    });
+}
+
+newGame();
+
+$('.card').click(function() {
+    $(this).toggleClass('match');
+    if (cards.length<1){
+        cards.push(this);
+        console.log(cards);
+    }else{
+        if (this == cards) {
+        }else{
+            setTimeout($(this).toggleClass('match'), 2000);
+            console.log(cards);
+            $(cards[0]).toggleClass('match');
+            cards = [];
+        }
+    }
+});
 
 /*
  * set up the event listener for a card. If a card is clicked:
