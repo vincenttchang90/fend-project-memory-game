@@ -26,16 +26,20 @@ function shuffle(array) {
 
 let cardsArray = [];
 let deck = $('.card');
-let cards = [];
+let open = [];
+let matched = [];
+let count;
 
 function newGame() {
     shuffle(deck);
     $('.deck').empty();
+    count = 0;
 
     $(deck).each(function(card){
         console.log(deck[card]);
         $(deck[card]).attr('class', 'card');
         $('.deck').append(deck[card]);
+        cardsArray.push(deck[card]);
     });
 }
 
@@ -43,19 +47,42 @@ newGame();
 
 $('.card').click(function() {
     $(this).toggleClass('match');
-    if (cards.length<1){
-        cards.push(this);
-        console.log(cards);
-    }else{
-        if (this == cards) {
-        }else{
-            setTimeout($(this).toggleClass('match'), 2000);
-            console.log(cards);
-            $(cards[0]).toggleClass('match');
-            cards = [];
-        }
+    if (open.length == 0) {
+        open.push($(this));
+    }else {
+        open.push($(this));
+        checkMatch();
     }
 });
+
+
+
+
+function increaseScore(){
+    count++;
+    $('.moves').text(count);
+}
+
+function checkMatch(){
+    increaseScore();
+    if (open[0][0].innerHTML == open[1][0].innerHTML) {
+        matched.push(open[0], open[1]);
+        open[0].off('click');
+        open[1].off('click');
+        if (matched.length == cardsArray.length) {
+            console.log('CONGRATS YOU WIN '+ count);
+        }
+        open.length = 0;
+    }else {
+        open[0].toggleClass('match');
+        open[1].toggleClass('match');
+        open.length = 0;
+    }
+}
+
+$('.restart').click(function() {
+    newGame();
+})
 
 /*
  * set up the event listener for a card. If a card is clicked:
