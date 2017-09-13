@@ -43,17 +43,25 @@ function newGame() {
     });
 
     $('.card').click(function() {
-        $(this).toggleClass('match');
-        if (open.length == 0) {
-            open.push($(this));
-        }else {
-            open.push($(this));
-            timeoutId = setTimeout(function() {
-                checkMatch();
-            }, 500)
-        }
+        clicker($(this));
     });
-}
+};
+
+function clicker(card) {
+    card.toggleClass('match');
+    if (open.length == 0) {
+        open.push(card);
+    }else {
+        $('.card').off();
+        open.push(card);
+        setTimeout(function() {
+            checkMatch();
+            $('.card').click(function() {
+                clicker($(this));
+            });
+        }, 500)
+    }
+};
 
 function increaseScore(){
     count++;
@@ -80,7 +88,6 @@ function checkMatch(){
 $('.restart').click(function() {
     newGame();
 })
-
 newGame();
 /*
  * set up the event listener for a card. If a card is clicked:
