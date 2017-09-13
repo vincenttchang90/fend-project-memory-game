@@ -34,29 +34,26 @@ function newGame() {
     shuffle(deck);
     $('.deck').empty();
     count = 0;
+    $('.moves').text(count);
 
     $(deck).each(function(card){
-        console.log(deck[card]);
         $(deck[card]).attr('class', 'card');
         $('.deck').append(deck[card]);
         cardsArray.push(deck[card]);
     });
+
+    $('.card').click(function() {
+        $(this).toggleClass('match');
+        if (open.length == 0) {
+            open.push($(this));
+        }else {
+            open.push($(this));
+            timeoutId = setTimeout(function() {
+                checkMatch();
+            }, 500)
+        }
+    });
 }
-
-newGame();
-
-$('.card').click(function() {
-    $(this).toggleClass('match');
-    if (open.length == 0) {
-        open.push($(this));
-    }else {
-        open.push($(this));
-        checkMatch();
-    }
-});
-
-
-
 
 function increaseScore(){
     count++;
@@ -84,6 +81,7 @@ $('.restart').click(function() {
     newGame();
 })
 
+newGame();
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
