@@ -22,6 +22,7 @@ function newGame() {
     $('.deck').empty();
     count = 0;
     $('.moves').text(count);
+    open = [];
 
     $(deck).each(function(card){
         $(deck[card]).attr('class', 'card');
@@ -37,15 +38,16 @@ function newGame() {
 function clicker(card) {
     card.toggleClass('match');
     if (open.length == 0) {
+        card.off();
         open.push(card);
     }else {
         $('.card').off();
         open.push(card);
         setTimeout(function() {
+            checkMatch();
             $('.card').not(".match").click(function() {
             clicker($(this));
-        });
-            checkMatch();
+            });
         }, 500)
     }
 }
@@ -65,7 +67,7 @@ function checkMatch(){
         }
 
         if (matched.length == cardsArray.length) {
-            console.log('CONGRATS YOU WIN '+ count);
+            console.log('CONGRATS YOU WON IN '+ count + " MOVES");
         }
         open.length = 0;
     }else {
