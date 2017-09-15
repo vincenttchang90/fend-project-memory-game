@@ -17,18 +17,23 @@
 
         <section class="score-panel">
         	<ul class="stars">
-        		<li><i class="fa fa-star hidden"></i></li>
+        		<li><i class="fa fa-star"></i></li>
         		<li><i class="fa fa-star"></i></li>
         		<li><i class="fa fa-star"></i></li>
         	</ul>
 
         	<span class="moves">0</span> Moves
-
+            <span class='clock'>00:00</span> 
             <div class="restart">
         		<i class="fa fa-repeat"></i>
         	</div>
         </section>
-
+        <div class='modal'>
+            <h1>CONGRATS ON WINNING</h1>
+            <p>You made <span class='endMoves'></span> moves in <span class="endTime"></span> time</p>
+            <p>You've earned <span class="endStars"></span></p>
+            <button id="reset-button">Play again!!</button>
+        </div>
         <ul class="deck">
             <li class="card">
                 <i class="fa fa-diamond"></i>
