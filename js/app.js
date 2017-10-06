@@ -21,6 +21,7 @@ let end;
 let formattedTime;
 let stars = 3;
 
+
 function newGame() {
     shuffle(deck);
     $('.deck').empty();
@@ -32,7 +33,7 @@ function newGame() {
     $('.score-panel .fa-star-o').attr('class', 'fa fa-star');
     clearInterval(runtime);
     $('.clock').text('00:00');
-    
+        
     $(deck).each(function(card){
         $(deck[card]).attr('class', 'card');
         $('.deck').append(deck[card]);
@@ -42,6 +43,13 @@ function newGame() {
     $('.card').not(".match").click(function() {
         clicker($(this));
     });
+
+    let width = $('.deck').width();
+    let pad = width*.04848;
+    let cardWidth = $('.deck .card').width();
+    $('.deck .card').height(cardWidth);
+    $('.deck').height(width);
+    $('.deck').css('padding', pad+'px');
 }
 
 function clicker(card) {
@@ -81,6 +89,11 @@ function clock(){
 }
 
 function displayModal() {
+
+    if ($('.deck').width() < 660) {
+        $('.modal').width($('.deck').width());
+    }
+
     $('.modal').css('display', 'block');
     $('.endMoves').text(count);
     $('.endTime').text(formattedTime);
@@ -90,7 +103,7 @@ function displayModal() {
 function increaseScore(){
     count++;
     $('.moves').text(count);
-    if (count == 11) {
+    if (count == 13) {
         $('.score-panel .fa-star').last().attr('class', 'fa fa-star-o');
         stars--;
     }
@@ -121,6 +134,15 @@ function checkMatch(){
         open.length = 0;
     }
 }
+
+$(window).resize(function() {
+    let width = $('.deck').width();
+    let pad = width*.04848;
+    let cardWidth = $('.deck .card').width();  
+    $('.deck').height(width);
+    $('.deck').css('padding', pad+'px');
+    $('.deck .card').height(cardWidth);  
+})
 
 $('#reset-button').click(function(){
     newGame();
