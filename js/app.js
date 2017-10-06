@@ -1,3 +1,4 @@
+//shuffles cards
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -11,6 +12,7 @@ function shuffle(array) {
     return array;
 }
 
+//declards global variables
 let cardsArray = [];
 let deck = $('.card');
 let open = [];
@@ -21,29 +23,35 @@ let end;
 let formattedTime;
 let stars = 3;
 
-
+//starts a new game
 function newGame() {
+    //sets default values
     shuffle(deck);
     $('.deck').empty();
     count = 0;
     $('.moves').text(count);
     open = [];
+    cardsArray = [];
+    matched = [];
     stars = 3;
     $('.modal').css('display', 'none');
     $('.score-panel .fa-star-o').attr('class', 'fa fa-star');
     clearInterval(runtime);
     $('.clock').text('00:00');
-        
+
+    //creates a new game board
     $(deck).each(function(card){
         $(deck[card]).attr('class', 'card');
         $('.deck').append(deck[card]);
         cardsArray.push(deck[card]);
     });
 
+    //assigns a click listener to cards that have not been matched
     $('.card').not(".match").click(function() {
         clicker($(this));
     });
 
+    //making game responsive
     let width = $('.deck').width();
     let pad = width*.04848;
     let cardWidth = $('.deck .card').width();
@@ -52,6 +60,7 @@ function newGame() {
     $('.deck').css('padding', pad+'px');
 }
 
+//defines what happens when a card is clicked
 function clicker(card) {
     card.toggleClass('open show');
     if (open.length == 0) {
@@ -75,6 +84,7 @@ function clicker(card) {
 
 let runtime = 0;
 
+//basic timer functionality
 function clock(){
     runtime = setInterval(function(){
         let now = new Date();
@@ -88,6 +98,7 @@ function clock(){
     }, 1000)
 }
 
+//dynamically displays modal when player wins game
 function displayModal() {
 
     if ($('.deck').width() < 660) {
@@ -100,6 +111,7 @@ function displayModal() {
     $('.endStars').empty().append($('.stars').clone());
 }
 
+//updates star rating and click count
 function increaseScore(){
     count++;
     $('.moves').text(count);
@@ -113,6 +125,7 @@ function increaseScore(){
     }
 }
 
+//checks to see if the cards match and if game is complete
 function checkMatch(){
     increaseScore();
     if (open[0][0].innerHTML == open[1][0].innerHTML) {
@@ -135,21 +148,25 @@ function checkMatch(){
     }
 }
 
+//makes game responsive
 $(window).resize(function() {
     let width = $('.deck').width();
     let pad = width*.04848;
-    let cardWidth = $('.deck .card').width();  
+    let cardWidth = $('.deck .card').width();
     $('.deck').height(width);
     $('.deck').css('padding', pad+'px');
-    $('.deck .card').height(cardWidth);  
+    $('.deck .card').height(cardWidth);
 })
 
+//modal reset button
 $('#reset-button').click(function(){
     newGame();
 })
 
+//reset button
 $('.restart').click(function() {
     newGame();
 })
 
+//runs game
 newGame();
